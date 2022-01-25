@@ -1,5 +1,7 @@
-import 'package:calculator/NewButton.dart';
+import 'package:calculator/new_button.dart';
 import 'package:flutter/material.dart';
+import 'simple_calc.dart';
+import 'my_calculator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,20 +14,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Calculator',
-      home: MyCalculator(),
+
+      home: CalculatorUi(),
     );
   }
 }
 
-class MyCalculator extends StatefulWidget {
-  const MyCalculator({Key? key}) : super(key: key);
+class CalculatorUi extends StatefulWidget {
+  const CalculatorUi({Key? key}) : super(key: key);
 
   @override
-  MyCalculatorState createState() => MyCalculatorState();
+  CalculatorUiState createState() => CalculatorUiState();
 }
 
-class MyCalculatorState extends State<MyCalculator> {
-  String output = '0';
+class CalculatorUiState extends State<CalculatorUi> {
+
+  final calculator = MyCalculator();
+
+
+  String output2 = '';
+  String action ='';
+  String result = '';
+
 
 
   @override
@@ -44,17 +54,36 @@ class MyCalculatorState extends State<MyCalculator> {
                   child: Container(
                     height: double.infinity,
                     width: double.infinity,
-                    alignment: Alignment.centerRight,
+                    color: Colors.white,
+                    alignment: Alignment.bottomRight,
                     padding: const EdgeInsets.symmetric(
-                      vertical: 0,
+                      vertical: 20,
                       horizontal: 10,
                     ),
-                    child: Text(output,
-                        style: const TextStyle(
-                          fontSize: 60.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Text(output,
+                            style: const TextStyle(
+                              fontSize: 60.0,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        Text(action,
+                            style: const TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        Text(output2,
+                            style: const TextStyle(
+                              fontSize: 60.0,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        Text(result,
+                            style: const TextStyle(
+                              fontSize: 60.0,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ],
+                    ),
                   ),
                 ),
                 Flexible(
