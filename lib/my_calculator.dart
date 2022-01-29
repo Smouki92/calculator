@@ -1,40 +1,23 @@
-import 'package:flutter/material.dart';
 import 'simple_calc.dart';
-
 
 class MyCalculator extends SimpleCalc {
 
-
-  String memory = '';
-
-
+  double memory = 0.0;
+  double result = 0.0;
 
   @override
-  double sum(double a, double b) {
-
-
- //  a = double.parse(output.text);
-
-    // TODO: implement sum
-    throw UnimplementedError();
-  }
+  double sum(double a, double b) => a + b;
 
   @override
-  double substract(double a, double b) {
-    // TODO: implement substract
-    throw UnimplementedError();
-  }
+  double substract(double a, double b) => a - b;
 
   @override
-  double multiply(double a, double b) {
-    // TODO: implement multiply
-    throw UnimplementedError();
-  }
+  double multiply(double a, double b) => a * b;
 
   @override
-  double divide(double a, double b) {
-    // TODO: implement divide
-    throw UnimplementedError();
-  }
+  double divide(double a, double b) => a / b;
+
+  @override
+  double interest(double a, double b) => a % b;
 
 }

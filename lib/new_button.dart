@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NewButton extends StatelessWidget {
-  String text;
+  final String text;
+  final VoidCallback onPress;
 
-
-
-  buttonPressed(String text){
-    print(text);
-  }
-
-  NewButton(this.text);
+  NewButton(this.text, this.onPress);
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +18,7 @@ class NewButton extends StatelessWidget {
         color: Colors.orange,
       ),
       child: MaterialButton(
-        onPressed: () {
-          buttonPressed(text);
-        },
+        onPressed: onPress,
         child: Text(
           text,
           style: const TextStyle(color: Colors.black, fontSize: 28.0),
