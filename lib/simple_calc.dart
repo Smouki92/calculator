@@ -3,5 +3,5 @@ abstract class SimpleCalc {
   double substract(double a, double b);
   double multiply(double a, double b);
   double divide(double a, double b);
-  double interest(double a, double b);
+  double percent(double a, double b);
 }

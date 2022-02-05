@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class NewButton extends StatelessWidget {
   final String text;
   final VoidCallback onPress;
+  final Color buttonColor;
 
-  NewButton(this.text, this.onPress);
+  NewButton(this.text, this.onPress, this.buttonColor);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class NewButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30.0),
-        color: Colors.orange,
+        color: buttonColor,
       ),
       child: MaterialButton(
         onPressed: onPress,

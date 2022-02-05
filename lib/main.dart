@@ -31,59 +31,9 @@ class CalculatorUi extends StatefulWidget {
 class CalculatorUiState extends State<CalculatorUi> {
   final calculator = MyCalculator();
 
-  String output = '0.00';
-  String _output = '0';
-  double a = 0.0;
-  double b = 0.0;
-  String operand = '';
-
-  onButtonPress(String text) {
-
-    if (text == 'AC') {
-
-      _output = '0';
-      a = 0;
-      b = 0;
-      operand = '';
-
-    } else if (text == '+' || text == '-' || text == '\u00D7' || text == '/' || text == '%') {
-
-      a = double.parse(output);
-      operand = text;
-      _output = '0';
-
-    }else if (text == '.') {
-
-      _output = _output + text;
-
-    } else if (text == '=') {
-
-      b = double.parse(output);
-
-      if (operand == '+') {
-        _output = (a + b).toString();
-      }
-      if (operand == '-') {
-        _output = (a - b).toString();
-      }
-      if (operand == '\u00D7') {
-        _output = (a * b).toString();
-      }
-      if (operand == '/') {
-        _output = (a / b).toString();
-      }
-      if (operand == '%') {
-        _output = (a % b).toString();
-      }
-      a = 0.0;
-      b = 0.0;
-      operand = '';
-    } else {
-      _output = _output + text;
-    }
-
+  void onButtonPress(Button button) {
     setState(() {
-      output = double.parse(_output).toStringAsFixed(2);
+      calculator.onButtonPress(button);
     });
   }
 
@@ -101,22 +51,28 @@ class CalculatorUiState extends State<CalculatorUi> {
                 Flexible(
                   flex: 4,
                   child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
                     color: Colors.black,
-                    alignment: Alignment.bottomRight,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 10,
-                    ),
                     child: Column(
-                      children: [
-                        Text(output,
-                            style: const TextStyle(
-                              fontSize: 60.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            )),
+                      children: <Widget>[
+                        Container(
+                            alignment: Alignment.bottomRight,
+                            padding: const EdgeInsets.fromLTRB(0, 30, 10, 10),
+                            child: Text(calculator.output,
+                                style: const TextStyle(
+                                  fontSize: 60.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ))),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          child: Text(calculator.result,
+                              style: const TextStyle(
+                                fontSize: 75.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              )),
+                        ),
                       ],
                     ),
                   ),
@@ -133,94 +89,133 @@ class CalculatorUiState extends State<CalculatorUi> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Flexible(
+                                  child: NewButton(
+                                      Button.ac.text(),
+                                      () => onButtonPress(Button.ac),
+                                      Colors.red)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.del.text(),
+                                      () => onButtonPress(Button.del),
+                                      Colors.redAccent)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.percent.text(),
+                                      () => onButtonPress(Button.percent),
+                                      Colors.white54)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.divide.text(),
+                                      () => onButtonPress(Button.divide),
+                                      Colors.white54)),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Flexible(
+                                  child: NewButton(
+                                      Button.seven.text(),
+                                      () => onButtonPress(Button.seven),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.eight.text(),
+                                      () => onButtonPress(Button.eight),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.nine.text(),
+                                      () => onButtonPress(Button.nine),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.multiply.text(),
+                                      () => onButtonPress(Button.multiply),
+                                      Colors.white54)),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Flexible(
+                                  child: NewButton(
+                                      Button.four.text(),
+                                      () => onButtonPress(Button.four),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.fifth.text(),
+                                      () => onButtonPress(Button.fifth),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.six.text(),
+                                      () => onButtonPress(Button.six),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.substract.text(),
+                                      () => onButtonPress(Button.substract),
+                                      Colors.white54)),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Flexible(
+                                  child: NewButton(
+                                      Button.one.text(),
+                                      () => onButtonPress(Button.one),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.two.text(),
+                                      () => onButtonPress(Button.two),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.three.text(),
+                                      () => onButtonPress(Button.three),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      Button.sum.text(),
+                                      () => onButtonPress(Button.sum),
+                                      Colors.white54)),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Flexible(
                                   flex: 2,
                                   child: NewButton(
-                                      'AC',() => onButtonPress('AC'),
-                                  )),
+                                      Button.zero.text(),
+                                      () => onButtonPress(Button.zero),
+                                      Colors.orange)),
                               Flexible(
-                                  child:
-                                      NewButton('%', () => onButtonPress('%'))),
+                                  child: NewButton(
+                                      Button.dot.text(),
+                                      () => onButtonPress(Button.dot),
+                                      Colors.orange)),
                               Flexible(
-                                  child:
-                                      NewButton('/', () => onButtonPress('/'))),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
-                                  child:
-                                      NewButton('7', () => onButtonPress('7'))),
-                              Flexible(
-                                  child:
-                                      NewButton('8', () => onButtonPress('8'))),
-                              Flexible(
-                                  child:
-                                      NewButton('9', () => onButtonPress('9'))),
-                              Flexible(
-                                  child:
-                                      NewButton('\u00D7', () => onButtonPress('\u00D7'))),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
-                                  child:
-                                      NewButton('4', () => onButtonPress('4'))),
-                              Flexible(
-                                  child:
-                                      NewButton('5', () => onButtonPress('5'))),
-                              Flexible(
-                                  child:
-                                      NewButton('6', () => onButtonPress('6'))),
-                              Flexible(
-                                  child:
-                                      NewButton('-', () => onButtonPress('-'))),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
-                                  child:
-                                      NewButton('1', () => onButtonPress('1'))),
-                              Flexible(
-                                  child:
-                                      NewButton('2', () => onButtonPress('2'))),
-                              Flexible(
-                                  child:
-                                      NewButton('3', () => onButtonPress('3'))),
-                              Flexible(
-                                  child:
-                                      NewButton('+', () => onButtonPress('+'))),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
-                                  flex: 2,
-                                  child:
-                                      NewButton('0', () => onButtonPress('0'))),
-                              Flexible(
-                                  child:
-                                      NewButton('.', () => onButtonPress('.'))),
-                              Flexible(
-                                  child:
-                                      NewButton('=', () => onButtonPress('='))),
+                                  child: NewButton(
+                                      Button.result.text(),
+                                      () => onButtonPress(Button.result),
+                                      Colors.blue)),
                             ],
                           ),
                         ),
