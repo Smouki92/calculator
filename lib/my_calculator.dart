@@ -22,7 +22,7 @@ enum Button {
   nine
 }
 
-extension ButtonExt on Button {
+extension ButtonText on Button {
   String text() {
     switch (this) {
       case Button.ac:
@@ -91,27 +91,37 @@ class MyCalculator extends SimpleCalc {
   double _b = 0.0;
   String _operand = '';
 
-  void onButtonPress(Button button) {
-    if (button == Button.ac) {
+  void onButtonPress(Button buttonText) {
+    if (buttonText == Button.ac) {
       output = '0';
       result = '0';
+      outputSize = 60.0;
+      resultSize = 75.0;
       _a = 0;
       _b = 0;
       _operand = '';
-    } else if (button == Button.del) {
+    } else if (buttonText == Button.del) {
+      outputSize = 75.0;
+      resultSize = 60.0;
       output = output.substring(0, output.length - 1);
       if (output == '') {
         output = '0';
       }
-    } else if (button == Button.sum ||
-        button == Button.substract ||
-        button == Button.multiply ||
-        button == Button.divide ||
-        button == Button.percent) {
+    } else if (buttonText == Button.dot) {
+      outputSize = 75.0;
+      resultSize = 60.0;
+      output = output + buttonText.text();
+    } else if (buttonText == Button.sum ||
+        buttonText == Button.substract ||
+        buttonText == Button.multiply ||
+        buttonText == Button.divide ||
+        buttonText == Button.percent) {
       _a = double.parse(output);
-      _operand = button.text();
+      _operand = buttonText.text();
       output = '0';
-    } else if (button == Button.result) {
+    } else if (buttonText == Button.result) {
+      outputSize = 60.0;
+      resultSize = 75.0;
       _b = double.parse(output);
       if (_operand == Button.sum.text()) {
         result = (_a + _b).toString();
@@ -131,10 +141,12 @@ class MyCalculator extends SimpleCalc {
       output = '0';
       _operand = '';
     } else {
+      outputSize = 75.0;
+      resultSize = 60.0;
       if (output == Button.zero.text()) {
-        output = button.text();
+        output = buttonText.text();
       } else {
-        output = output + button.text();
+        output = output + buttonText.text();
       }
     }
   }

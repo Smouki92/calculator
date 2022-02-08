@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calculator',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
@@ -58,8 +59,8 @@ class CalculatorUiState extends State<CalculatorUi> {
                             alignment: Alignment.bottomRight,
                             padding: const EdgeInsets.fromLTRB(0, 30, 10, 10),
                             child: Text(calculator.output,
-                                style: const TextStyle(
-                                  fontSize: 60.0,
+                                style:  TextStyle(
+                                  fontSize: calculator.outputSize,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ))),
@@ -67,8 +68,8 @@ class CalculatorUiState extends State<CalculatorUi> {
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                           child: Text(calculator.result,
-                              style: const TextStyle(
-                                fontSize: 75.0,
+                              style: TextStyle(
+                                fontSize: calculator.resultSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               )),
