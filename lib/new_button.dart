@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class NewButton extends StatelessWidget {
+
   final String text;
   final VoidCallback onPress;
   final Color buttonColor;
 
-  NewButton(this.text, this.onPress, this.buttonColor);
+  const NewButton(this.text, this.onPress, this.buttonColor);
 
   @override
   Widget build(BuildContext context) {

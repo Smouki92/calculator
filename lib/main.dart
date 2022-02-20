@@ -2,7 +2,7 @@ import 'package:calculator/new_button.dart';
 import 'package:flutter/material.dart';
 import 'my_calculator.dart';
 
-void main() {
+void main(){
   runApp(const MyApp());
 }
 
@@ -32,7 +32,7 @@ class CalculatorUi extends StatefulWidget {
 class CalculatorUiState extends State<CalculatorUi> {
   final calculator = MyCalculator();
 
-  void onButtonPress(Button button) {
+  void onButtonPress(Button button){
     setState(() {
       calculator.onButtonPress(button);
     });
