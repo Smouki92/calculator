@@ -1,6 +1,6 @@
 import 'simple_calc.dart';
 
-enum Button {
+enum CalcButton {
   ac,
   del,
   percent,
@@ -22,46 +22,46 @@ enum Button {
   nine
 }
 
-extension ButtonText on Button {
+extension ButtonText on CalcButton {
   String text() {
     switch (this) {
-      case Button.ac:
+      case CalcButton.ac:
         return 'AC';
-      case Button.del:
+      case CalcButton.del:
         return '⌫';
-      case Button.percent:
+      case CalcButton.percent:
         return '%';
-      case Button.divide:
+      case CalcButton.divide:
         return '÷';
-      case Button.multiply:
+      case CalcButton.multiply:
         return '×';
-      case Button.substract:
+      case CalcButton.substract:
         return '-';
-      case Button.sum:
+      case CalcButton.sum:
         return '+';
-      case Button.result:
+      case CalcButton.result:
         return '=';
-      case Button.dot:
+      case CalcButton.dot:
         return '.';
-      case Button.zero:
+      case CalcButton.zero:
         return '0';
-      case Button.one:
+      case CalcButton.one:
         return '1';
-      case Button.two:
+      case CalcButton.two:
         return '2';
-      case Button.three:
+      case CalcButton.three:
         return '3';
-      case Button.four:
+      case CalcButton.four:
         return '4';
-      case Button.fifth:
+      case CalcButton.fifth:
         return '5';
-      case Button.six:
+      case CalcButton.six:
         return '6';
-      case Button.seven:
+      case CalcButton.seven:
         return '7';
-      case Button.eight:
+      case CalcButton.eight:
         return '8';
-      case Button.nine:
+      case CalcButton.nine:
         return '9';
     }
   }
@@ -83,101 +83,92 @@ class MyCalculator extends SimpleCalc {
   @override
   double percent(double a, double b) => (a * b) / 100;
 
-  String output = '0';
-  String _output = '0';
-  String _operand = '';
-  String result = '0';
-  double _a = 0.0;
-  double _b = 0.0;
-  double outputSize = 75.0;
-  double resultSize = 60.0;
+  String output = '';
+  CalcButton? _operand;
+  String mainOutput = '0';
+  double _num1 = 0.0;
+  double _num2 = 0.0;
+  double bufResult = 0.0;
 
-  Future<String> sleepOutput() {
-    return Future<String>.delayed(
-        const Duration(seconds: 3), () => output );
-  }
-
-  void onButtonPress(Button buttonText) async {
-    switch (buttonText) {
-      case Button.zero:
-      case Button.one:
-      case Button.two:
-      case Button.three:
-      case Button.four:
-      case Button.fifth:
-      case Button.six:
-      case Button.seven:
-      case Button.eight:
-      case Button.nine:
-        if (output == '0') {
-          output = '';
+  void onButtonPress(CalcButton button) async {
+    switch (button) {
+      case CalcButton.zero:
+      case CalcButton.one:
+      case CalcButton.two:
+      case CalcButton.three:
+      case CalcButton.four:
+      case CalcButton.fifth:
+      case CalcButton.six:
+      case CalcButton.seven:
+      case CalcButton.eight:
+      case CalcButton.nine:
+        if (mainOutput == '0') {
+          mainOutput = '';
         }
-        await sleepOutput();
-        output = output + buttonText.text();
-        print(output);
-        _output = _output + buttonText.text();
+        mainOutput = mainOutput + button.text();
         break;
-      case Button.dot:
-        if (output.contains(Button.dot.text())) {
+      case CalcButton.dot:
+        if (mainOutput.contains(CalcButton.dot.text())) {
           return;
         }
-        outputSize = 75.0;
-        resultSize = 60.0;
-        output = output + buttonText.text();
-        _output = _output + buttonText.text();
+        mainOutput = mainOutput + button.text();
         break;
-      case Button.sum:
-      case Button.substract:
-      case Button.multiply:
-      case Button.divide:
-      case Button.percent:
-        outputSize = 75.0;
-        resultSize = 60.0;
-        _a = double.parse(_output);
-        _operand = buttonText.text();
-        output = '0';
-        _output = '0';
+      case CalcButton.sum:
+      case CalcButton.substract:
+      case CalcButton.multiply:
+      case CalcButton.divide:
+      case CalcButton.percent:
+         if (_operand != null) {
+           result(button);
+         }
+        _num1 = double.parse(mainOutput);
+        _operand = button;
+        output = mainOutput + ' ' + button.text();
+        mainOutput = '0';
         break;
-      case Button.result:
-        outputSize = 60.0;
-        resultSize = 75.0;
-        _b = double.parse(_output);
-        if (_operand == Button.sum.text()) {
-          result = (_a + _b).toString();
-        }
-        if (_operand == Button.substract.text()) {
-          result = (_a - _b).toString();
-        }
-        if (_operand == Button.multiply.text()) {
-          result = (_a * _b).toString();
-        }
-        if (_operand == Button.divide.text()) {
-          result = (_a / _b).toString();
-        }
-        if (_operand == Button.percent.text()) {
-          result = ((_a * _b) / 100).toString();
-        }
-        output = '0';
-        _output = '0';
-        _operand = '';
+      case CalcButton.result:
+        result(button);
         break;
-      case Button.ac:
-        outputSize = 75.0;
-        resultSize = 60.0;
-        output = '0';
-        result = '0';
-        _operand = '0';
-        _a = 0;
-        _b = 0;
+      case CalcButton.ac:
+        output = '';
+        mainOutput = '0';
+        _operand = null;
+        _num1 = 0;
+        _num2 = 0;
         break;
-      case Button.del:
-        outputSize = 75.0;
-        resultSize = 60.0;
-        output = output.substring(0, output.length - 1);
-        if (output == '') {
-          output = '0';
+      case CalcButton.del:
+        mainOutput = mainOutput.substring(0, mainOutput.length - 1);
+        if (mainOutput == '') {
+          mainOutput = '0';
         }
         break;
     }
+  }
+
+  void result(CalcButton button) {
+    _num2 = double.parse(mainOutput);
+    output = output + ' ' + mainOutput + ' ' + button.text();
+
+    if (_operand == CalcButton.sum) {
+      bufResult = _num1 + _num2;
+    }
+    if (_operand == CalcButton.substract) {
+      bufResult = _num1 - _num2;
+    }
+    if (_operand == CalcButton.multiply) {
+      bufResult = _num1 * _num2;
+    }
+    if (_operand == CalcButton.divide) {
+      bufResult = _num1 / _num2;
+    }
+    if (_operand == CalcButton.percent) {
+      bufResult = (_num1 * _num2) / 100;
+    }
+    if ((bufResult % 1) == 0) {
+      mainOutput = bufResult.toInt().toString();
+    } else {
+      mainOutput = bufResult.toString();
+    }
+    _operand = null;
   }
 }

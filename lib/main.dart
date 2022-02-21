@@ -32,7 +32,12 @@ class CalculatorUi extends StatefulWidget {
 class CalculatorUiState extends State<CalculatorUi> {
   final calculator = MyCalculator();
 
-  void onButtonPress(Button button){
+  void onButtonPress(CalcButton button) async {
+    final awaitOutput =  calculator.output;
+    calculator.output = '';
+    setState(() {});
+    await Future.delayed(const Duration(milliseconds: 100));
+    calculator.output = awaitOutput;
     setState(() {
       calculator.onButtonPress(button);
     });
@@ -59,17 +64,17 @@ class CalculatorUiState extends State<CalculatorUi> {
                             alignment: Alignment.bottomRight,
                             padding: const EdgeInsets.fromLTRB(0, 30, 10, 10),
                             child: Text(calculator.output,
-                                style:  TextStyle(
-                                  fontSize: calculator.outputSize,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                style:  const TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white54,
                                 ))),
                         Container(
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Text(calculator.result,
-                              style: TextStyle(
-                                fontSize: calculator.resultSize,
+                          child: Text(calculator.mainOutput,
+                              style: const TextStyle(
+                                fontSize: 70,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               )),
@@ -91,51 +96,23 @@ class CalculatorUiState extends State<CalculatorUi> {
                             children: <Widget>[
                               Flexible(
                                   child: NewButton(
-                                      Button.ac.text(),
-                                      () => onButtonPress(Button.ac),
+                                      CalcButton.ac.text(),
+                                      () => onButtonPress(CalcButton.ac),
                                       Colors.red)),
                               Flexible(
                                   child: NewButton(
-                                      Button.del.text(),
-                                      () => onButtonPress(Button.del),
+                                      CalcButton.del.text(),
+                                      () => onButtonPress(CalcButton.del),
                                       Colors.redAccent)),
                               Flexible(
                                   child: NewButton(
-                                      Button.percent.text(),
-                                      () => onButtonPress(Button.percent),
+                                      CalcButton.percent.text(),
+                                      () => onButtonPress(CalcButton.percent),
                                       Colors.white54)),
                               Flexible(
                                   child: NewButton(
-                                      Button.divide.text(),
-                                      () => onButtonPress(Button.divide),
-                                      Colors.white54)),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
-                                  child: NewButton(
-                                      Button.seven.text(),
-                                      () => onButtonPress(Button.seven),
-                                      Colors.orange)),
-                              Flexible(
-                                  child: NewButton(
-                                      Button.eight.text(),
-                                      () => onButtonPress(Button.eight),
-                                      Colors.orange)),
-                              Flexible(
-                                  child: NewButton(
-                                      Button.nine.text(),
-                                      () => onButtonPress(Button.nine),
-                                      Colors.orange)),
-                              Flexible(
-                                  child: NewButton(
-                                      Button.multiply.text(),
-                                      () => onButtonPress(Button.multiply),
+                                      CalcButton.divide.text(),
+                                      () => onButtonPress(CalcButton.divide),
                                       Colors.white54)),
                             ],
                           ),
@@ -147,23 +124,23 @@ class CalculatorUiState extends State<CalculatorUi> {
                             children: <Widget>[
                               Flexible(
                                   child: NewButton(
-                                      Button.four.text(),
-                                      () => onButtonPress(Button.four),
+                                      CalcButton.seven.text(),
+                                      () => onButtonPress(CalcButton.seven),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.fifth.text(),
-                                      () => onButtonPress(Button.fifth),
+                                      CalcButton.eight.text(),
+                                      () => onButtonPress(CalcButton.eight),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.six.text(),
-                                      () => onButtonPress(Button.six),
+                                      CalcButton.nine.text(),
+                                      () => onButtonPress(CalcButton.nine),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.substract.text(),
-                                      () => onButtonPress(Button.substract),
+                                      CalcButton.multiply.text(),
+                                      () => onButtonPress(CalcButton.multiply),
                                       Colors.white54)),
                             ],
                           ),
@@ -175,23 +152,51 @@ class CalculatorUiState extends State<CalculatorUi> {
                             children: <Widget>[
                               Flexible(
                                   child: NewButton(
-                                      Button.one.text(),
-                                      () => onButtonPress(Button.one),
+                                      CalcButton.four.text(),
+                                      () => onButtonPress(CalcButton.four),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.two.text(),
-                                      () => onButtonPress(Button.two),
+                                      CalcButton.fifth.text(),
+                                      () => onButtonPress(CalcButton.fifth),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.three.text(),
-                                      () => onButtonPress(Button.three),
+                                      CalcButton.six.text(),
+                                      () => onButtonPress(CalcButton.six),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.sum.text(),
-                                      () => onButtonPress(Button.sum),
+                                      CalcButton.substract.text(),
+                                      () => onButtonPress(CalcButton.substract),
+                                      Colors.white54)),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Flexible(
+                                  child: NewButton(
+                                      CalcButton.one.text(),
+                                      () => onButtonPress(CalcButton.one),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      CalcButton.two.text(),
+                                      () => onButtonPress(CalcButton.two),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      CalcButton.three.text(),
+                                      () => onButtonPress(CalcButton.three),
+                                      Colors.orange)),
+                              Flexible(
+                                  child: NewButton(
+                                      CalcButton.sum.text(),
+                                      () => onButtonPress(CalcButton.sum),
                                       Colors.white54)),
                             ],
                           ),
@@ -204,18 +209,18 @@ class CalculatorUiState extends State<CalculatorUi> {
                               Flexible(
                                   flex: 2,
                                   child: NewButton(
-                                      Button.zero.text(),
-                                      () => onButtonPress(Button.zero),
+                                      CalcButton.zero.text(),
+                                      () => onButtonPress(CalcButton.zero),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.dot.text(),
-                                      () => onButtonPress(Button.dot),
+                                      CalcButton.dot.text(),
+                                      () => onButtonPress(CalcButton.dot),
                                       Colors.orange)),
                               Flexible(
                                   child: NewButton(
-                                      Button.result.text(),
-                                      () => onButtonPress(Button.result),
+                                      CalcButton.result.text(),
+                                      () => onButtonPress(CalcButton.result),
                                       Colors.blue)),
                             ],
                           ),
